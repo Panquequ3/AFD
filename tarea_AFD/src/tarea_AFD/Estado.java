@@ -23,7 +23,7 @@ public class Estado {
 		if(this.Transiciones.containsKey(simbolo)) {
 			return this.Transiciones.get(simbolo);
 		}
-		return ""; //Tiene que analizarlo
+		return ""; //Tiene que analizarlo pa que no acepte llaves vacias
 	}
 	
 	public boolean isFinal() {
