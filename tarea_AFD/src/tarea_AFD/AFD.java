@@ -7,10 +7,10 @@ public class AFD {
 	private HashMap<String,Estado> conjunto_estados; //Q
 	
 	//constructor
-	public AFD(String palabra_entrada, char estado_ini, HashMap<String, Estado> conjunto_estados) {
+	public AFD(String palabra_entrada, char estado_ini) {
 		super();
 		this.estado_ini = estado_ini;
-		this.conjunto_estados = conjunto_estados;
+		conjunto_estados = new HashMap<String, Estado>();
 	}
 	
 
