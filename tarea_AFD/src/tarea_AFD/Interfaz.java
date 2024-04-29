@@ -28,6 +28,8 @@ public class Interfaz extends JFrame implements ActionListener{
 	
 	private JLabel headerTitle;
 	
+	//Elementos de la parte de ingresar el AFD
+	
 	private JLabel bodyTitle;
 	private JTextField bodyEstadoInicialBox;
 	private JTextField bodyEstadosFinalesBox; 
@@ -37,16 +39,20 @@ public class Interfaz extends JFrame implements ActionListener{
 	private JButton botonResetear;
 	private JButton comfirmarAFD;
 	
+	//Elementos de la parte post ingresar el AFD
+	
 	private JLabel footerTitle;
 	private JTextField palabraBox;
 	private JButton comfirmar;
+	
+	//Lugar donde se va a guardar toda la info
 	
 	private String stringEstadoInicial;
 	private String stringEstadosFinales;
 	private String stringTransiciones;
 	
 	
-	/*constructor de la clase, usa singleton, crea el JFrame principal y llama
+	/*Constructor de la clase, usa singleton, crea el JFrame principal y llama
 	las funciones que crean los JPanel*/
 	private Interfaz() {
 		this.main = new JFrame("Nombre");
@@ -66,11 +72,16 @@ public class Interfaz extends JFrame implements ActionListener{
 		main.setVisible(true);
 	}
 	
+	/*
+	 Funcion que crea la parte visual de la interfaz 
+	 */
+	
 	private void makeMenu() {
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.insets = new Insets(10,0,10,20);
 		
+		//Creacion del Titulo de la interfaz
 		
 		gbc.gridx = 0;
 		gbc.gridy = 0;
@@ -79,14 +90,17 @@ public class Interfaz extends JFrame implements ActionListener{
 		headerTitle.setHorizontalAlignment(JLabel.CENTER);
 		main.add(headerTitle, gbc);
 		
-		
+		//SubTitulo de la interfaz donde el usuario ingresara el AFD
 		
 		bodyTitle = new JLabel("Datos AFD");
 		bodyTitle.setHorizontalAlignment(JLabel.CENTER);
 		gbc.gridx = 0;
 		gbc.gridy = 1;
 		main.add(bodyTitle, gbc);
-
+		
+		//Creacion del input para el estado inicial con su
+		//ejemplo correspondiente
+		
 		gbc.gridwidth = 1;
 		gbc.gridx = 0;
 		gbc.gridy = 2;
@@ -96,6 +110,9 @@ public class Interfaz extends JFrame implements ActionListener{
 		gbc.gridy = 2;
 		main.add(bodyEstadoInicialBox, gbc);	
 		
+		//Creacion del input para los estados finales con
+		//su ejemplo correspondiente
+		
 		gbc.gridx = 0;
 		gbc.gridy = 3;
 		main.add(new JLabel("Estados finales:"), gbc);
@@ -103,7 +120,12 @@ public class Interfaz extends JFrame implements ActionListener{
 		gbc.gridx = 1;
 		gbc.gridy = 3;
 		main.add(bodyEstadosFinalesBox, gbc);
-			
+		
+		//Creacion del input para las tranciciones
+		//donde el primer elemento es el estado inicial(Donde comienza)
+		//El segundo es el simbolo y el ultimo es el
+		//estado final(Donde LLega)
+		
 		gbc.gridx = 0;
 		gbc.gridy = 4;
 		main.add(new JLabel("Transiciones: "), gbc);
@@ -112,12 +134,17 @@ public class Interfaz extends JFrame implements ActionListener{
 		gbc.gridy = 4;
 		main.add(bodyTransicionesBox, gbc);
 		
+		//Boton para ingresar las transiciones
+		
 		botonesTransiciones = new JPanel();
 		botonesTransiciones.setLayout(new GridBagLayout());
 		botonIngresar = new JButton("Ingresar transiciones");
 		botonIngresar.addActionListener(this);
 		gbc.gridx = 0;
 		gbc.gridy = 0;
+		
+		//Boton para borrar las transiciones colocadas
+		
 		botonesTransiciones.add(botonIngresar, gbc);
 		botonResetear = new JButton("Resetear transiciones");
 		botonResetear.addActionListener(this);
@@ -129,6 +156,8 @@ public class Interfaz extends JFrame implements ActionListener{
 		gbc.gridy = 5;
 		main.add(botonesTransiciones, gbc);
 		
+		//Boton para crear el AFD(? con los datos almacenados
+		
 		comfirmarAFD = new JButton("Comfirmar AFD");
 		comfirmarAFD.addActionListener(this);
 		gbc.gridx = 0;
@@ -136,13 +165,15 @@ public class Interfaz extends JFrame implements ActionListener{
 		gbc.gridwidth = 2;
 		main.add(comfirmarAFD, gbc);
 		
-		
+		//Parte del ingreso de las palabras dentro del AFD
 		
 		footerTitle = new JLabel("Ingreso Palabras");
 		footerTitle.setHorizontalAlignment(JLabel.CENTER);
 		gbc.gridx = 0;
 		gbc.gridy = 7;
 		main.add(footerTitle, gbc);
+		
+		//Celda donde se ingresara la palabra a comprobar
 		
 		gbc.gridwidth = 1;
 		gbc.gridx = 0;
@@ -153,6 +184,8 @@ public class Interfaz extends JFrame implements ActionListener{
 		gbc.gridy = 8;
 		main.add(palabraBox, gbc);
 		
+		//Boton para probar la palabra dentro del AFD ingresado
+		
 		comfirmar = new JButton("Comfirmar");
 		comfirmar.addActionListener(this);
 		gbc.gridx = 0;
@@ -160,26 +193,10 @@ public class Interfaz extends JFrame implements ActionListener{
 		gbc.gridwidth = 2;
 		main.add(comfirmar, gbc);
 		
-		
-		
-
-		
-		
-		
-		
-	
 	}
+		
+	//Funcion donde se iniciara la interfaz
 	
-	
-	
-	
-
-	
-
-
-	
-	
-
 	public static void main(String args[]) {
 		try {
 			UIManager.setLookAndFeel( UIManager.getCrossPlatformLookAndFeelClassName() );
@@ -189,6 +206,7 @@ public class Interfaz extends JFrame implements ActionListener{
 		Interfaz v = new Interfaz();
 	}
 	
+	//Funcion donde se crean las funciones de los botones
 
 	@Override
 	public void actionPerformed(ActionEvent e) {		
