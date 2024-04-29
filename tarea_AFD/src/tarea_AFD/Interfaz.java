@@ -7,6 +7,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -18,7 +20,8 @@ import javax.swing.UIManager;
 
 
 
-public class Interfaz extends JFrame {
+
+public class Interfaz extends JFrame implements ActionListener{
 	private static final long serialVersionUID = 1L;
 	private static Interfaz instance;
 	private JFrame main;
@@ -38,6 +41,11 @@ public class Interfaz extends JFrame {
 	private JTextField palabraBox;
 	private JButton comfirmar;
 	
+	private String stringEstadoInicial;
+	private String stringEstadosFinales;
+	private String stringTransiciones;
+	
+	
 	/*constructor de la clase, usa singleton, crea el JFrame principal y llama
 	las funciones que crean los JPanel*/
 	private Interfaz() {
@@ -47,6 +55,10 @@ public class Interfaz extends JFrame {
 		main.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		main.setLayout(new GridBagLayout());
+		
+		stringEstadoInicial = "";
+		stringEstadosFinales = "";
+		stringTransiciones = "";
 		
 		makeMenu();
 		
@@ -103,10 +115,12 @@ public class Interfaz extends JFrame {
 		botonesTransiciones = new JPanel();
 		botonesTransiciones.setLayout(new GridBagLayout());
 		botonIngresar = new JButton("Ingresar transiciones");
+		botonIngresar.addActionListener(this);
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		botonesTransiciones.add(botonIngresar, gbc);
 		botonResetear = new JButton("Resetear transiciones");
+		botonResetear.addActionListener(this);
 		gbc.gridx = 1;
 		gbc.gridy = 0;
 		botonesTransiciones.add(botonResetear, gbc);
@@ -116,6 +130,7 @@ public class Interfaz extends JFrame {
 		main.add(botonesTransiciones, gbc);
 		
 		comfirmarAFD = new JButton("Comfirmar AFD");
+		comfirmarAFD.addActionListener(this);
 		gbc.gridx = 0;
 		gbc.gridy = 6;
 		gbc.gridwidth = 2;
@@ -139,6 +154,7 @@ public class Interfaz extends JFrame {
 		main.add(palabraBox, gbc);
 		
 		comfirmar = new JButton("Comfirmar");
+		comfirmar.addActionListener(this);
 		gbc.gridx = 0;
 		gbc.gridy = 9;
 		gbc.gridwidth = 2;
@@ -172,6 +188,31 @@ public class Interfaz extends JFrame {
 		}
 		Interfaz v = new Interfaz();
 	}
-}
+	
 
+	@Override
+	public void actionPerformed(ActionEvent e) {		
+		if (e.getSource() == botonIngresar) {
+			stringTransiciones = stringTransiciones + bodyTransicionesBox.getText();
+			if (stringTransiciones.charAt(stringTransiciones.length() - 1) != ',') {
+				stringTransiciones = stringTransiciones + ",";
+			}
+		}
+		
+		if (e.getSource() == botonResetear) {
+			stringTransiciones = "";
+		}
+		
+		
+
+		if (e.getSource() == comfirmarAFD) {
+			headerTitle.setText("comfirmarAFD");
+		}
+		
+		
+		if (e.getSource() == comfirmar) {
+			headerTitle.setText("comfirmar");
+		}
+	}
+}
 
