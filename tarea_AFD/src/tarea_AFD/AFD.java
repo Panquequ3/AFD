@@ -5,55 +5,13 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 public class AFD {
-	private String estado_ini; //q0
+	private String estado_inicial; //q0
 	//key: simbolo del Estado, value: objeto Estado
-	private HashMap<String,Estado> conjunto_estados; //Q
+	private HashMap<String,Estado> estados; //Q
 	
 	//constructor
-	public AFD(String estado_ini, HashMap<String,Estado> conjunto_estados) {
-		this.estado_ini = estado_ini;
-		this.conjunto_estados = conjunto_estados;
-	}
-	
-
-	//getters (porsiacaso)
-	public String getEstado_ini() {
-		return estado_ini;
-	}
-
-
-	public HashMap<String, Estado> getConjunto_estados() {
-		return conjunto_estados;
-	}
-	
-	//funciones
-	public boolean lee_palabra(String palabra) {
-		Estado aux = conjunto_estados.get(estado_ini);
-		for(int i = 0; i < palabra.length(); i++) {
-			String transicion = aux.LeerSimbolo(palabra.charAt(i)+"");
-			//si la transicion lleva a un estado, entonces pasamos a ese estado
-			if(transicion != ""){
-				//System.out.println("el estado: " + aux.getValue() + " con " + palabra.charAt(i)+ " va al estado " +  transicion );
-				aux = conjunto_estados.get(transicion);
-			}
-			else //si lleva a "" entonces no se puede continuar, la palabra no es aceptada
-				return false;
-		}
-		if(aux.isFinal())
-			return true;
-		return false;
-	}
-
-
-
-	public static void main(String[] args) {
-		//en teoria el input debiese ser como:
-		String estado_inicial = "0";
-		String est_finales = "1";
-		String transiciones = "(0,a,1)-(1,a,1)-(1,b,1)-(0,b,2)-(2,a,2)-(2,b,2)"; //desde el estado 0, con a, vamos al estado 1
-		String palabra = "aaaaaaaabbbbbaaabbbaabbabababababba"; //palabra a probar
-		
-		//pasando las transiciones a un arraylist
+	public AFD(String estado_ini, String est_finales, String transiciones) {
+		this.estado_inicial = estado_ini;
 		String[] tran = transiciones.split("-");
 		ArrayList<String> lista_transiciones = new ArrayList<>();
 		for(String elemento : tran) {
@@ -68,7 +26,7 @@ public class AFD {
 		//llenando el AFD y creando los objetos Estado
 		
 		//key:simbolo del Estado, value: objeto Estado
-		HashMap<String,Estado> estados = new HashMap<>();
+		this.estados = new HashMap<>();
 		
 		//Creando objetos Estado y añadiendolos al conjunto
 		//1: añadir estados iniciales y finales inmediatamente
@@ -115,14 +73,41 @@ public class AFD {
 					
 			}
 		}
-		//creacion del AFD
-		AFD afd = new AFD(estado_inicial, estados);
-		System.out.println("el estado inicial del afd es: " + afd.getEstado_ini());
-		
-		if(afd.lee_palabra(palabra))
-			System.out.println("fue aceptada :D");
-		else
-			System.out.println("no fue aceptada :C");
-		
 	}
+	
+
+	//getters (porsiacaso)
+	public String getEstado_inicial() {
+		return estado_inicial;
+	}
+
+
+	public HashMap<String, Estado> getConjunto_estados() {
+		return estados;
+	}
+	
+	public void llenaEstados() {}
+	
+	
+	//funciones
+	public boolean lee_palabra(String palabra) {
+		Estado aux = estados.get(estado_inicial);
+		for(int i = 0; i < palabra.length(); i++) {
+			String transicion = aux.LeerSimbolo(palabra.charAt(i)+"");
+			//si la transicion lleva a un estado, entonces pasamos a ese estado
+			if(transicion != ""){
+				//System.out.println("el estado: " + aux.getValue() + " con " + palabra.charAt(i)+ " va al estado " +  transicion );
+				aux = estados.get(transicion);
+			}
+			else //si lleva a "" entonces no se puede continuar, la palabra no es aceptada
+				return false;
+		}
+		if(aux.isFinal())
+			return true;
+		return false;
+	}
+
+
+
+	public static void main(String[] args) {}
 }
