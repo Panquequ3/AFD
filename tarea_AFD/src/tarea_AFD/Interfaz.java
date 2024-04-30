@@ -9,6 +9,9 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -50,6 +53,11 @@ public class Interfaz extends JFrame implements ActionListener{
 	private String stringEstadoInicial;
 	private String stringEstadosFinales;
 	private String stringTransiciones;
+	private String palabra;
+	
+	//AFD
+	
+	private AFD afd;
 	
 	
 	/*Constructor de la clase, usa singleton, crea el JFrame principal y llama
@@ -129,7 +137,7 @@ public class Interfaz extends JFrame implements ActionListener{
 		gbc.gridx = 0;
 		gbc.gridy = 4;
 		main.add(new JLabel("Transiciones: "), gbc);
-		bodyTransicionesBox = new JTextField("ej: (q0,a,q1), (q0,b,q2)");
+		bodyTransicionesBox = new JTextField("ej: (q0,a,q1)-(q0,b,q2)");
 		gbc.gridx = 1;
 		gbc.gridy = 4;
 		main.add(bodyTransicionesBox, gbc);
@@ -209,11 +217,11 @@ public class Interfaz extends JFrame implements ActionListener{
 	//Funcion donde se crean las funciones de los botones
 
 	@Override
-	public void actionPerformed(ActionEvent e) {		
+	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == botonIngresar) {
 			stringTransiciones = stringTransiciones + bodyTransicionesBox.getText();
-			if (stringTransiciones.charAt(stringTransiciones.length() - 1) != ',') {
-				stringTransiciones = stringTransiciones + ",";
+			if (stringTransiciones.charAt(stringTransiciones.length() - 1) != '-') {
+				stringTransiciones = stringTransiciones + "-";
 			}
 		}
 		
@@ -222,14 +230,67 @@ public class Interfaz extends JFrame implements ActionListener{
 		}
 		
 		
-
+		//Si se presiona el boton comfirmarAFD
 		if (e.getSource() == comfirmarAFD) {
-			headerTitle.setText("comfirmarAFD");
+			
+			//Toma el texto actualmente en los JTextField
+			stringEstadoInicial = bodyEstadoInicialBox.getText();
+			stringEstadosFinales = bodyEstadosFinalesBox.getText();
+			stringTransiciones = bodyTransicionesBox.getText();
+			
+			//separa el string de estados finales en un array de estados finales y elimina comas y espacios en blanco
+			String[] estados_finales = stringEstadosFinales.split(",");
+			for (String element : estados_finales) {
+				element.replaceAll("\\s+","");
+			}
+			
+			//separa el string de transiciones en un array de transiciones y elimina guion y parentesis
+			String[] tran = stringTransiciones.split("-");
+			ArrayList<String> lista_transiciones = new ArrayList<>();
+			for(String elemento : tran) {
+				elemento = elemento.replace("(", "").replace(")", "");
+				lista_transiciones.add(elemento);
+			}
+			
+			//Pasa por las transiciones del array de transiciones y de aqui saca los estados y sus transiciones y los añade
+			//a un array de estados
+			HashMap<String,Estado> estados = new HashMap<>();
+			for(String transicion : lista_transiciones) {
+				String[] partes = transicion.split(",");
+				String simbolo = partes[0];
+				//si es nulo, entonces no está el objeto, por ello lo crea y lo agrega
+				if(estados.get(simbolo) == null) {
+					int indice = Arrays.binarySearch(estados_finales, simbolo + "");
+					boolean es_final = (indice >= 0) ? true : false; //indica si el estado simbolo es e. final o no
+					Estado aux = new Estado(simbolo, es_final);
+					for(String t : lista_transiciones) {
+						String[] datos = t.split(",");
+						if(simbolo.equals(datos[0])) {
+							String sim = datos[2]; //estado 1, 2, etc
+							String key = datos[1]; //a, b, etc
+							aux.AgregarTransicion(key, sim);	
+						}
+							
+					}
+					estados.put(simbolo, aux);
+						
+				}
+			}
+			
+			//Crea el afd
+			afd = new AFD(stringEstadoInicial, estados);
+			
 		}
 		
-		
+		//Si se presiona el boton comfirmar
 		if (e.getSource() == comfirmar) {
-			headerTitle.setText("comfirmar");
+			palabra = palabraBox.getText();
+			if (afd.lee_palabra(palabra)) {
+				headerTitle.setText("se acepto la palabra");
+			}
+			else {
+				headerTitle.setText("no se acepto la palabra");
+			}
 		}
 	}
 }
