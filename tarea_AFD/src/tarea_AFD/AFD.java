@@ -61,6 +61,7 @@ public class AFD {
 	//funciones
 	public boolean lee_palabra(String palabra) {
 		Estado aux = estados.get(estado_inicial);
+		if(palabra.equals("")) return aux.isFinal();
 		for(int i = 0; i < palabra.length(); i++) {
 			String transicion = aux.leerSimbolo(palabra.charAt(i)+"");
 			if(transicion != ""){
