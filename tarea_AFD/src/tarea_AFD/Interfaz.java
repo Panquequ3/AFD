@@ -241,7 +241,7 @@ public class Interfaz extends JFrame implements ActionListener{
 			//aqui hay un cambio
 			
 			if(stringEstadoInicial.contains("ej:") || stringEstadosFinales.contains("ej:") || stringTransiciones.contains("ej:")) {
-				ventanillaMsg = "No se a ingresado ningun dato para crear el AFD";
+				ventanillaMsg = "No se a ingresado ningun dato para crear el AFD o aun contiene el ejemplo";
 				llamaVentanilla(ventanillaMsg);
 			}
 			else {
@@ -263,7 +263,7 @@ public class Interfaz extends JFrame implements ActionListener{
 			else {
 				palabra = palabraBox.getText();
 				if(palabra.contains("ej:")) { //Este es el otro cambio
-					ventanillaMsg = "No se ingreso ninguna palabra";
+					ventanillaMsg = "No se ingreso ninguna palabra o aun existe el ejemplo";
 				}
 				else if (afd.lee_palabra(palabra)) {
 					ventanillaMsg = "El AFD acepta la palabra";
