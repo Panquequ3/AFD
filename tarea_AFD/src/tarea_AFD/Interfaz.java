@@ -29,13 +29,13 @@ public class Interfaz extends JFrame implements ActionListener{
 	private JTextField bodyEstadoInicialBox;
 	private JTextField bodyEstadosFinalesBox; 
 	private JTextField bodyTransicionesBox;
-	private JButton comfirmarAFD;
+	private JButton confirmarAFD;
 	
 	//Elementos de la parte post ingresar el AFD
 	
 	private JLabel footerTitle;
 	private JTextField palabraBox;
-	private JButton comfirmar;
+	private JButton confirmar;
 	
 	//Lugar donde se va a guardar toda la info
 	
@@ -59,8 +59,8 @@ public class Interfaz extends JFrame implements ActionListener{
 	/*Constructor de la clase, usa singleton, crea el JFrame principal y llama
 	las funciones que crean los JPanel*/
 	private Interfaz() {
-		this.main = new JFrame("Nombre");
-		main.setBounds(300, 150, 450, 500); 
+		this.main = new JFrame("Simulacion AFD");
+		main.setBounds(500, 150, 450, 500); 
 
 		main.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -72,7 +72,7 @@ public class Interfaz extends JFrame implements ActionListener{
 		
 		makeMenu();
 		
-
+		main.setResizable(false);
 		main.setVisible(true);
 	}
 	
@@ -90,7 +90,7 @@ public class Interfaz extends JFrame implements ActionListener{
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		gbc.gridwidth = 2;
-		headerTitle = new JLabel("Titulo");
+		headerTitle = new JLabel("AFD");
 		headerTitle.setHorizontalAlignment(JLabel.CENTER);
 		main.add(headerTitle, gbc);
 		
@@ -140,12 +140,12 @@ public class Interfaz extends JFrame implements ActionListener{
 		
 		//Boton para crear el AFD con los datos almacenados
 		
-		comfirmarAFD = new JButton("Comfirmar AFD");
-		comfirmarAFD.addActionListener(this);
+		confirmarAFD = new JButton("Confirmar AFD");
+		confirmarAFD.addActionListener(this);
 		gbc.gridx = 0;
 		gbc.gridy = 6;
 		gbc.gridwidth = 2;
-		main.add(comfirmarAFD, gbc);
+		main.add(confirmarAFD, gbc);
 		
 		//Parte del ingreso de las palabras dentro del AFD
 		
@@ -168,19 +168,19 @@ public class Interfaz extends JFrame implements ActionListener{
 		
 		//Boton para probar la palabra dentro del AFD ingresado
 		
-		comfirmar = new JButton("Comfirmar");
-		comfirmar.addActionListener(this);
+		confirmar = new JButton("Confirmar");
+		confirmar.addActionListener(this);
 		gbc.gridx = 0;
 		gbc.gridy = 9;
 		gbc.gridwidth = 2;
-		main.add(comfirmar, gbc);
+		main.add(confirmar, gbc);
 	}
 	
 	//Funcion que crea la ventanilla con mensaje si se acepto o rechazo la palabra
 	
 	public void creaVentanilla() {
-		ventanilla = new JFrame("ventanilla");
-		ventanilla.setBounds(350, 200, 400, 150);
+		ventanilla = new JFrame();
+		ventanilla.setBounds(525, 300, 400, 150);
 		ventanilla.setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
 		ventanilla.setResizable(false);
@@ -231,7 +231,7 @@ public class Interfaz extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e) {		
 		
 		//Si se presiona el boton comfirmarAFD
-		if (e.getSource() == comfirmarAFD) {
+		if (e.getSource() == confirmarAFD) {
 			
 			//Toma el texto actualmente en los JTextField
 			stringEstadoInicial = bodyEstadoInicialBox.getText();
@@ -247,13 +247,15 @@ public class Interfaz extends JFrame implements ActionListener{
 			else {
 				//Crea el AFD
 				afd = new AFD(stringEstadoInicial, stringEstadosFinales, stringTransiciones);
+				ventanillaMsg = "El AFD se creo correctamente";
+				llamaVentanilla(ventanillaMsg);
 			}
 			
 			
 		}
 		
 		//Si se presiona el boton comfirmar
-		if (e.getSource() == comfirmar) {
+		if (e.getSource() == confirmar) {
 			if(afd == null) {
 				ventanillaMsg = "Debe crear un AFD antes de ingresar una palabra";
 				llamaVentanilla(ventanillaMsg);
