@@ -35,7 +35,7 @@ public class AFD {
 		}
 		
 		//si el estado inicial no es tambien estado final, entonces se agrega
-		if(estados.containsKey(estado_inicial)) {
+		if(!estados.containsKey(estado_inicial)) {
 			estados.put(estado_inicial,new Estado(estado_inicial, false));
 		}
 		//2: añadir los estados restantes a partir de las transiciones:
