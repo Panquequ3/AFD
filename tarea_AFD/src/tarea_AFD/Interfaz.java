@@ -168,7 +168,7 @@ public class Interfaz extends JFrame implements ActionListener{
 		
 		//Boton para probar la palabra dentro del AFD ingresado
 		
-		confirmar = new JButton("Confirmar");
+		confirmar = new JButton("Confirmar palabra");
 		confirmar.addActionListener(this);
 		gbc.gridx = 0;
 		gbc.gridy = 9;
