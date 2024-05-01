@@ -190,9 +190,9 @@ public class Interfaz extends JFrame implements ActionListener{
 	
 	//Funcion que crea la ventanilla con mensaje si se acepto o rechazo la palabra
 	
-	public void ventanilla() {
+	public void creaVentanilla() {
 		ventanilla = new JFrame("ventanilla");
-		ventanilla.setBounds(350, 200, 300, 150);
+		ventanilla.setBounds(350, 200, 400, 150);
 		ventanilla.setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
 		ventanilla.setResizable(false);
@@ -213,6 +213,19 @@ public class Interfaz extends JFrame implements ActionListener{
 		ventanilla.setVisible(true);
 	}
 		
+	//funcion que llama a la ventanilla
+	
+	public void llamaVentanilla(String msg) {
+		if(ventanilla == null) {
+			creaVentanilla();
+		}
+		else {
+			ventanilla.setVisible(true);
+		}
+		
+		ventanillaLabel.setText(msg);
+	}
+	
 	//Funcion donde se iniciara la interfaz
 	
 	public static void main(String args[]) {
@@ -237,27 +250,34 @@ public class Interfaz extends JFrame implements ActionListener{
 			stringEstadosFinales = bodyEstadosFinalesBox.getText();
 			stringTransiciones = bodyTransicionesBox.getText();
 			
+			if(stringEstadoInicial.charAt(0) == 'e' || stringEstadosFinales.charAt(0) == 'e' || stringTransiciones.charAt(0) == 'e') {
+				ventanillaMsg = "No puede crear el AFD con el texto de ejemplo";
+				llamaVentanilla(ventanillaMsg);
+			}
+			else {
+				//Crea el AFD
+				afd = new AFD(stringEstadoInicial, stringEstadosFinales, stringTransiciones);
+			}
 			
-			//Crea el afd
-			afd = new AFD(stringEstadoInicial, stringEstadosFinales, stringTransiciones);
 			
 		}
 		
 		//Si se presiona el boton comfirmar
 		if (e.getSource() == comfirmar) {
-			palabra = palabraBox.getText();
-			if (afd.lee_palabra(palabra)) {
-				ventanillaMsg = "El AFD acepta la palabra";
+			if(afd == null) {
+				ventanillaMsg = "Debe crear un AFD antes de ingresar una palabra";
+				llamaVentanilla(ventanillaMsg);
 			}
 			else {
-				headerTitle.setText("El AFD no acepta la palabra");
-			}
-			
-			if(ventanilla == null) {
-				ventanilla();
-			}
-			else {
-				ventanilla.setVisible(true);
+				palabra = palabraBox.getText();
+				if (afd.lee_palabra(palabra)) {
+					ventanillaMsg = "El AFD acepta la palabra";
+				}
+				else {
+					ventanillaMsg = "El AFD no acepta la palabra";
+				}
+				
+				llamaVentanilla(ventanillaMsg);
 			}
 		}
 		
