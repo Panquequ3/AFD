@@ -1,7 +1,6 @@
 package tarea_AFD;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 public class AFD {
@@ -43,7 +42,7 @@ public class AFD {
 			String[] partes = transicion.split(",");
 			String simbolo = partes[0];
 			if(estados.containsKey(simbolo)) {
-				estados.get(simbolo).AgregarTransicion(partes[1],partes[2]); //porsiaca
+				estados.get(simbolo).agregarTransicion(partes[1],partes[2]); //porsiaca
 			}
 			else {
 				estados.put(simbolo,new Estado(simbolo,false));
@@ -66,14 +65,11 @@ public class AFD {
 		return estados;
 	}
 	
-	public void llenaEstados() {}
-	
-	
 	//funciones
 	public boolean lee_palabra(String palabra) {
 		Estado aux = estados.get(estado_inicial);
 		for(int i = 0; i < palabra.length(); i++) {
-			String transicion = aux.LeerSimbolo(palabra.charAt(i)+"");
+			String transicion = aux.leerSimbolo(palabra.charAt(i)+"");
 			//si la transicion lleva a un estado, entonces pasamos a ese estado
 			if(transicion != ""){
 				//System.out.println("el estado: " + aux.getValue() + " con " + palabra.charAt(i)+ " va al estado " +  transicion );
@@ -82,6 +78,10 @@ public class AFD {
 			else //si lleva a "" entonces no se puede continuar, la palabra no es aceptada
 				return false;
 		}
+		/*
+		 no podria ser aqui mejor un
+		 return aux.isFinal();
+		 */
 		if(aux.isFinal())
 			return true;
 		return false;
@@ -89,5 +89,5 @@ public class AFD {
 
 
 
-	public static void main(String[] args) {}
+	//public static void main(String[] args) {}
 }

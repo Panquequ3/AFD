@@ -250,6 +250,8 @@ public class Interfaz extends JFrame implements ActionListener{
 			stringEstadosFinales = bodyEstadosFinalesBox.getText();
 			stringTransiciones = bodyTransicionesBox.getText();
 			
+			//No seria mejor un contains ej: ??
+			
 			if(stringEstadoInicial.charAt(0) == 'e' || stringEstadosFinales.charAt(0) == 'e' || stringTransiciones.charAt(0) == 'e') {
 				ventanillaMsg = "No puede crear el AFD con el texto de ejemplo";
 				llamaVentanilla(ventanillaMsg);
