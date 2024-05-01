@@ -31,46 +31,26 @@ public class AFD {
 		//Creando objetos Estado y añadiendolos al conjunto
 		//1: añadir estados iniciales y finales inmediatamente
 		for(String simbolo : estados_finales) {
-			Estado aux = new Estado(simbolo, true);
-			estados.put(simbolo,aux);
-			for(String t : lista_transiciones) {
-				String[] datos = t.split(",");
-				if(simbolo.equals(datos[0])) {
-					aux.AgregarTransicion(datos[1],datos[2]);	
-					//datos[0]:estado 1, 2, etc
-					//datos[2]:a, b, etc
-				}		
-			}
+			estados.put(simbolo, new Estado(simbolo, true));
 		}
 		
 		//si el estado inicial no es tambien estado final, entonces se agrega
 		if(estados.containsKey(estado_inicial)) {
-			Estado aux = new Estado(estado_inicial, false);
-			estados.put(estado_inicial,aux);
-			for(String t : lista_transiciones) {
-				String[] datos = t.split(",");
-				if(estado_inicial.equals(datos[0])) {
-					aux.AgregarTransicion(datos[1],datos[2]);	
-				}
-					
-			}
+			estados.put(estado_inicial,new Estado(estado_inicial, false));
 		}
 		//2: añadir los estados restantes a partir de las transiciones:
 		for(String transicion : lista_transiciones) {
 			String[] partes = transicion.split(",");
 			String simbolo = partes[0];
-			//si es nulo, entonces no está el objeto, por ello lo crea y lo agrega
-			if(estados.get(simbolo) == null) {
-				Estado aux = new Estado(simbolo, false);
-				for(String t : lista_transiciones) {
-					String[] datos = t.split(",");
-					if(simbolo.equals(datos[0])) {
-						aux.AgregarTransicion(datos[1],datos[2]);	
-					}
-						
-				}
-				estados.put(simbolo, aux);
-					
+			if(estados.containsKey(simbolo)) {
+				estados.get(simbolo).AgregarTransicion(partes[1],partes[2]); //porsiaca
+			}
+			else {
+				estados.put(simbolo,new Estado(simbolo,false));
+			}
+			
+			if(!estados.containsKey(partes[2])) {
+				estados.put(partes[2],new Estado(partes[2],false));
 			}
 		}
 	}
