@@ -24,6 +24,7 @@ import javax.swing.UIManager;
 
 
 
+
 public class Interfaz extends JFrame implements ActionListener{
 	private static final long serialVersionUID = 1L;
 	private static Interfaz instance;
@@ -113,7 +114,7 @@ public class Interfaz extends JFrame implements ActionListener{
 		gbc.gridx = 0;
 		gbc.gridy = 2;
 		main.add(new JLabel("Estado inicial:"), gbc);
-		bodyEstadoInicialBox = new JTextField("ej: q0");
+		bodyEstadoInicialBox = new PTextField("ej: q0", true);
 		gbc.gridx = 1;
 		gbc.gridy = 2;
 		main.add(bodyEstadoInicialBox, gbc);	
@@ -124,7 +125,7 @@ public class Interfaz extends JFrame implements ActionListener{
 		gbc.gridx = 0;
 		gbc.gridy = 3;
 		main.add(new JLabel("Estados finales:"), gbc);
-		bodyEstadosFinalesBox = new JTextField("ej: q4, q5, q7");
+		bodyEstadosFinalesBox = new PTextField("ej: q1, q5, q7", false);
 		gbc.gridx = 1;
 		gbc.gridy = 3;
 		main.add(bodyEstadosFinalesBox, gbc);
@@ -137,34 +138,12 @@ public class Interfaz extends JFrame implements ActionListener{
 		gbc.gridx = 0;
 		gbc.gridy = 4;
 		main.add(new JLabel("Transiciones: "), gbc);
-		bodyTransicionesBox = new JTextField("ej: (q0,a,q1)-(q0,b,q2)");
+		bodyTransicionesBox = new PTextField("ej: (q0,a,q1)-(q0,b,q2)", false);
 		gbc.gridx = 1;
 		gbc.gridy = 4;
-		main.add(bodyTransicionesBox, gbc);
+		main.add(bodyTransicionesBox, gbc);	
 		
-		//Boton para ingresar las transiciones
-		
-		botonesTransiciones = new JPanel();
-		botonesTransiciones.setLayout(new GridBagLayout());
-		botonIngresar = new JButton("Ingresar transiciones");
-		botonIngresar.addActionListener(this);
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		
-		//Boton para borrar las transiciones colocadas
-		
-		botonesTransiciones.add(botonIngresar, gbc);
-		botonResetear = new JButton("Resetear transiciones");
-		botonResetear.addActionListener(this);
-		gbc.gridx = 1;
-		gbc.gridy = 0;
-		botonesTransiciones.add(botonResetear, gbc);
-		gbc.gridwidth = 2;
-		gbc.gridx = 0;
-		gbc.gridy = 5;
-		main.add(botonesTransiciones, gbc);
-		
-		//Boton para crear el AFD(? con los datos almacenados
+		//Boton para crear el AFD con los datos almacenados
 		
 		comfirmarAFD = new JButton("Comfirmar AFD");
 		comfirmarAFD.addActionListener(this);
@@ -187,7 +166,7 @@ public class Interfaz extends JFrame implements ActionListener{
 		gbc.gridx = 0;
 		gbc.gridy = 8;
 		main.add(new JLabel("Palabra:"), gbc);
-		palabraBox = new JTextField("ej: abbcbabacbcc");
+		palabraBox = new PTextField("ej: abbcbabacbcc", false);
 		gbc.gridx = 1;
 		gbc.gridy = 8;
 		main.add(palabraBox, gbc);
@@ -200,6 +179,9 @@ public class Interfaz extends JFrame implements ActionListener{
 		gbc.gridy = 9;
 		gbc.gridwidth = 2;
 		main.add(comfirmar, gbc);
+	}
+	
+	public void ventanilla() {
 		
 	}
 		
@@ -217,18 +199,7 @@ public class Interfaz extends JFrame implements ActionListener{
 	//Funcion donde se crean las funciones de los botones
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == botonIngresar) {
-			stringTransiciones = stringTransiciones + bodyTransicionesBox.getText();
-			if (stringTransiciones.charAt(stringTransiciones.length() - 1) != '-') {
-				stringTransiciones = stringTransiciones + "-";
-			}
-		}
-		
-		if (e.getSource() == botonResetear) {
-			stringTransiciones = "";
-		}
-		
+	public void actionPerformed(ActionEvent e) {		
 		
 		//Si se presiona el boton comfirmarAFD
 		if (e.getSource() == comfirmarAFD) {
@@ -238,47 +209,9 @@ public class Interfaz extends JFrame implements ActionListener{
 			stringEstadosFinales = bodyEstadosFinalesBox.getText();
 			stringTransiciones = bodyTransicionesBox.getText();
 			
-			//separa el string de estados finales en un array de estados finales y elimina comas y espacios en blanco
-			String[] estados_finales = stringEstadosFinales.split(",");
-			for (String element : estados_finales) {
-				element.replaceAll("\\s+","");
-			}
-			
-			//separa el string de transiciones en un array de transiciones y elimina guion y parentesis
-			String[] tran = stringTransiciones.split("-");
-			ArrayList<String> lista_transiciones = new ArrayList<>();
-			for(String elemento : tran) {
-				elemento = elemento.replace("(", "").replace(")", "");
-				lista_transiciones.add(elemento);
-			}
-			
-			//Pasa por las transiciones del array de transiciones y de aqui saca los estados y sus transiciones y los añade
-			//a un array de estados
-			HashMap<String,Estado> estados = new HashMap<>();
-			for(String transicion : lista_transiciones) {
-				String[] partes = transicion.split(",");
-				String simbolo = partes[0];
-				//si es nulo, entonces no está el objeto, por ello lo crea y lo agrega
-				if(estados.get(simbolo) == null) {
-					int indice = Arrays.binarySearch(estados_finales, simbolo + "");
-					boolean es_final = (indice >= 0) ? true : false; //indica si el estado simbolo es e. final o no
-					Estado aux = new Estado(simbolo, es_final);
-					for(String t : lista_transiciones) {
-						String[] datos = t.split(",");
-						if(simbolo.equals(datos[0])) {
-							String sim = datos[2]; //estado 1, 2, etc
-							String key = datos[1]; //a, b, etc
-							aux.AgregarTransicion(key, sim);	
-						}
-							
-					}
-					estados.put(simbolo, aux);
-						
-				}
-			}
 			
 			//Crea el afd
-			afd = new AFD(stringEstadoInicial, estados);
+			afd = new AFD(stringEstadoInicial, stringEstadosFinales, stringTransiciones);
 			
 		}
 		
