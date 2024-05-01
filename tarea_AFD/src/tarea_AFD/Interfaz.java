@@ -56,6 +56,13 @@ public class Interfaz extends JFrame implements ActionListener{
 	private String stringTransiciones;
 	private String palabra;
 	
+	//ventanilla
+	
+	private JFrame ventanilla;
+	private JLabel ventanillaLabel;
+	private String ventanillaMsg;
+	private JButton ventanillaSalir;
+	
 	//AFD
 	
 	private AFD afd;
@@ -181,8 +188,29 @@ public class Interfaz extends JFrame implements ActionListener{
 		main.add(comfirmar, gbc);
 	}
 	
+	//Funcion que crea la ventanilla con mensaje si se acepto o rechazo la palabra
+	
 	public void ventanilla() {
+		ventanilla = new JFrame("ventanilla");
+		ventanilla.setBounds(350, 200, 300, 150);
+		ventanilla.setLayout(new GridBagLayout());
+		GridBagConstraints gbc = new GridBagConstraints();
+		ventanilla.setResizable(false);
+		ventanilla.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		
+		ventanillaLabel = new JLabel(ventanillaMsg);
+		ventanillaLabel.setHorizontalAlignment(JLabel.CENTER);
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		ventanilla.add(ventanillaLabel,gbc);
+		
+		ventanillaSalir = new JButton("Salir");
+		ventanillaSalir.addActionListener(this);
+		gbc.gridx = 0;
+		gbc.gridy = 1;
+		ventanilla.add(ventanillaSalir, gbc);
+		
+		ventanilla.setVisible(true);
 	}
 		
 	//Funcion donde se iniciara la interfaz
@@ -219,11 +247,23 @@ public class Interfaz extends JFrame implements ActionListener{
 		if (e.getSource() == comfirmar) {
 			palabra = palabraBox.getText();
 			if (afd.lee_palabra(palabra)) {
-				headerTitle.setText("se acepto la palabra");
+				ventanillaMsg = "El AFD acepta la palabra";
 			}
 			else {
-				headerTitle.setText("no se acepto la palabra");
+				headerTitle.setText("El AFD no acepta la palabra");
 			}
+			
+			if(ventanilla == null) {
+				ventanilla();
+			}
+			else {
+				ventanilla.setVisible(true);
+			}
+		}
+		
+		//Si se presiona el boton de salir de la ventanilla
+		if(e.getSource() == ventanillaSalir) {
+			ventanilla.setVisible(false);
 		}
 	}
 }
