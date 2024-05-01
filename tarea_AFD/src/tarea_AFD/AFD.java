@@ -17,32 +17,25 @@ public class AFD {
 			elemento = elemento.replace("(", "").replace(")", "");
 			lista_transiciones.add(elemento);
 		}
-		//pasando estados_finales a un array
+
 		String[] estados_finales = est_finales.split(",");
-		
-		
-		
-		//llenando el AFD y creando los objetos Estado
 		
 		//key:simbolo del Estado, value: objeto Estado
 		this.estados = new HashMap<>();
 		
 		//Creando objetos Estado y añadiendolos al conjunto
-		//1: añadir estados iniciales y finales inmediatamente
 		for(String simbolo : estados_finales) {
 			estados.put(simbolo, new Estado(simbolo, true));
 		}
 		
-		//si el estado inicial no es tambien estado final, entonces se agrega
 		if(!estados.containsKey(estado_inicial)) {
 			estados.put(estado_inicial,new Estado(estado_inicial, false));
 		}
-		//2: añadir los estados restantes a partir de las transiciones:
 		for(String transicion : lista_transiciones) {
 			String[] partes = transicion.split(",");
 			String simbolo = partes[0];
 			if(estados.containsKey(simbolo)) {
-				estados.get(simbolo).agregarTransicion(partes[1],partes[2]); //porsiaca
+				estados.get(simbolo).agregarTransicion(partes[1],partes[2]);
 			}
 			else {
 				estados.put(simbolo,new Estado(simbolo,false));
@@ -55,13 +48,13 @@ public class AFD {
 	}
 	
 
-	//getters (porsiacaso)
+	//getters de las variables estado_inicial y los estados
 	public String getEstado_inicial() {
 		return estado_inicial;
 	}
 
 
-	public HashMap<String, Estado> getConjunto_estados() {
+	public HashMap<String, Estado> getEstados() {
 		return estados;
 	}
 	
@@ -70,24 +63,15 @@ public class AFD {
 		Estado aux = estados.get(estado_inicial);
 		for(int i = 0; i < palabra.length(); i++) {
 			String transicion = aux.leerSimbolo(palabra.charAt(i)+"");
-			//si la transicion lleva a un estado, entonces pasamos a ese estado
 			if(transicion != ""){
-				//System.out.println("el estado: " + aux.getValue() + " con " + palabra.charAt(i)+ " va al estado " +  transicion );
 				aux = estados.get(transicion);
 			}
 			else //si lleva a "" entonces no se puede continuar, la palabra no es aceptada
 				return false;
 		}
-		/*
-		 no podria ser aqui mejor un
-		 return aux.isFinal();
-		 */
-		if(aux.isFinal())
-			return true;
-		return false;
+		return aux.isFinal();
+		
 	}
-
-
-
+	
 	//public static void main(String[] args) {}
 }

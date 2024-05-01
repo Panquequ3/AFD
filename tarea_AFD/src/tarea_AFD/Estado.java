@@ -39,7 +39,7 @@ public class Estado {
 		return this.estado_final;
 	}
 
-	//Solo esta esta funcion porque me lo pide :p
+	//Getter del valor del estado
 	
 	public String getValue() {
 		return value;

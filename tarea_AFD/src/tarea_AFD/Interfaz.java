@@ -1,23 +1,14 @@
 package tarea_AFD;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 
@@ -38,9 +29,6 @@ public class Interfaz extends JFrame implements ActionListener{
 	private JTextField bodyEstadoInicialBox;
 	private JTextField bodyEstadosFinalesBox; 
 	private JTextField bodyTransicionesBox;
-	private JPanel botonesTransiciones;
-	private JButton botonIngresar;
-	private JButton botonResetear;
 	private JButton comfirmarAFD;
 	
 	//Elementos de la parte post ingresar el AFD
@@ -252,7 +240,7 @@ public class Interfaz extends JFrame implements ActionListener{
 			
 			//No seria mejor un contains ej: ??
 			
-			if(stringEstadoInicial.charAt(0) == 'e' || stringEstadosFinales.charAt(0) == 'e' || stringTransiciones.charAt(0) == 'e') {
+			if(stringEstadoInicial.contains("ej:") || stringEstadosFinales.contains("ej:") || stringTransiciones.contains("ej:")) {
 				ventanillaMsg = "No puede crear el AFD con el texto de ejemplo";
 				llamaVentanilla(ventanillaMsg);
 			}
@@ -287,6 +275,10 @@ public class Interfaz extends JFrame implements ActionListener{
 		if(e.getSource() == ventanillaSalir) {
 			ventanilla.setVisible(false);
 		}
+	}
+
+	public static Interfaz getInstance() {
+		return instance;
 	}
 }
 
