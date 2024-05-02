@@ -180,7 +180,7 @@ public class Interfaz extends JFrame implements ActionListener{
 	
 	public void creaVentanilla() {
 		ventanilla = new JFrame();
-		ventanilla.setBounds(525, 300, 400, 150);
+		ventanilla.setBounds(485, 300, 480, 150);
 		ventanilla.setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
 		ventanilla.setResizable(false);
