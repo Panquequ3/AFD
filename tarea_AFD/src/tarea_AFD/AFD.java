@@ -39,6 +39,7 @@ public class AFD {
 			}
 			else {
 				estados.put(simbolo,new Estado(simbolo,false));
+				estados.get(simbolo).agregarTransicion(partes[1],partes[2]);
 			}
 			
 			if(!estados.containsKey(partes[2])) {
