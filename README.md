@@ -1,3 +1,4 @@
 # AFD
-jiji
-hello daddy pim :33
+Proyecto para la asignatura de Teoria de Automatas.
+
+Se diseñó un programa capaz de simular cualquier Autómata Finito Determinista.
